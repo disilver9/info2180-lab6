@@ -14,16 +14,61 @@ function myFunction(str) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                alert( this.responseText);
+                document.getElementById("txtHint").innerHTML = this.responseText;
             }
         };
-        xmlhttp.open("GET", "request.php?q=" + str, true);
+        xmlhttp.open("GET", "request2.php?q=" + str, true);
         xmlhttp.send();
     }
 }
 
 
 
+window.onload = function () { 
+     var getXmlBtn = document.querySelector('#getXml'); 
+ 
+ 
+     getXmlBtn.addEventListener('click', function() { 
+         var httpRequest = new XMLHttpRequest(); 
+ 
+ 
+         // GET Request 
+         var url = "request.php"; 
+         httpRequest.onreadystatechange = getXml; 
+         httpRequest.open('GET', url); 
+         httpRequest.send(); 
+ 
+ 
+         function getXml() { 
+             if (httpRequest.readyState === XMLHttpRequest.DONE) { 
+               if (httpRequest.status === 200) { 
+                 // Note that we use responseXML instead of responseText 
+                 // when we are expecting XML data. 
+                 var response = httpRequest.responseXML; 
+                 console.log(response);
+                 var results = document.querySelector('#txtHint'); 
+                 var people = response.getElementsByTagName('definition'); 
+ 
+ 
+                 var list = document.createElement('ol'); 
+                 results.appendChild(list); 
+                 for (var x = 0; x < people.length; x++) { 
+                     var person = document.createElement('li'); 
+                     var txt = document.createTextNode(people[x].getAttribute('name'));
+                     var ttt =  document.createTextNode(people[x].getAttribute('author'));
+                     var text = document.createTextNode(people[x].childNodes[0].nodeValue); 
+                     person.appendChild(txt)
+                     person.appendChild(ttt)
+                     person.appendChild(text) 
+                     list.appendChild(person); 
+                 } 
+               } else { 
+                 alert('There was a problem with the request.'); 
+               } 
+             } 
+         } 
+     }); 
+ }; 
 
 
 </script>
@@ -44,3 +89,9 @@ function myFunction(str) {
 
 </body>
 </html>
+
+
+
+
+
+
