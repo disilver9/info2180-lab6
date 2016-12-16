@@ -1,0 +1,46 @@
+<!--DOCTYPE=html-->
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+
+</style>
+<script>
+function myFunction(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "request.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+
+
+
+
+
+</script>
+</head>
+<body>
+
+
+
+<form name="MyForm">
+  <input type="text" name="search" placeholder="Search..">
+</form>
+    <br />
+<Button onclick=myFunction(document.forms["MyForm"]["search"].value)>Submit</Button>
+<Button id="getXml" class="btn">Get All Definitions</Button>
+<div id="txtHint"></div>
+
+
+
+</body>
+</html>
